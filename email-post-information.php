@@ -4,7 +4,7 @@
 Plugin Name: Email Posts Information
 Plugin URI: http://www.finaldatasolutions.com/
 Description: This plugin simply email the posts information to an email may be admin user or someone else.
-Version: 1.0.0
+Version: 1.0.1
 Author: Ibrar Ayoub
 Author URI: http://www.finaldatasolutions.com/
 License: GPLv2 or later
