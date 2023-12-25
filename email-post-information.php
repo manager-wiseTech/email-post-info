@@ -56,10 +56,7 @@ function send_instant_email_cb_fn(){
 		</div>
 	<?php
 		if (isset($_POST['send_instant_report'])) {
-			if (mail_site_posts_information()) {
-			 	echo '<div id="setting-error-settings_updated" class="notice notice-success settings-error is-dismissible"> 
-				<p><strong>Email Sent Successfully.</strong></p><button type="button" class="notice-dismiss"><span class="screen-reader-text">Dismiss this notice.</span></button></div>';
-			 } 
+			mail_site_posts_information();
 		}
 }
 
@@ -80,6 +77,7 @@ add_action('mail_post_info_hook','mail_site_posts_information');
 function mail_site_posts_information(){
 	//$count_posts = wp_count_posts($type = 'post');
  	//$count_posts = get_total_post();
+ 	$headers = "";
 	$data = "";
 	$data .= get_total_post();
 
@@ -96,14 +94,22 @@ function mail_site_posts_information(){
 		
 	}
 	
-	mail($mai_add, $subject, $data,$headers);
-
+	$mail_sent = wp_mail($mai_add, $subject, $data,$headers);
 	//echo $data;
+	if ($mail_sent) {
+            echo '<div id="setting-error-settings_updated" class="notice notice-success settings-error is-dismissible"> 
+				<p><strong>Email Sent Successfully.</strong></p><button type="button" class="notice-dismiss"><span class="screen-reader-text">Dismiss this notice.</span></button></div>';
+    
+    } else {
+       echo '<div id="setting-error-settings_updated" class="notice notice-success settings-error is-dismissible"> 
+				<p><strong>Error Sending Email.</strong></p><button type="button" class="notice-dismiss"><span class="screen-reader-text">Dismiss this notice.</span></button></div>';
+    }
 
 
 }
 function get_total_post(){
 	$all_post_type = get_option('epi_plugin_posttype_checkboxes');
+	$total_posts = "";
 	$publish_posts = $future_posts = $trash_posts = 0;
 	if (is_array($all_post_type)) {
 		foreach ($all_post_type as $post_type) {
@@ -120,7 +126,7 @@ function get_total_post(){
 
 function get_posts_edited_created_yesterday($param){
 	$all_post_type = get_option('epi_plugin_posttype_checkboxes');
-	
+	$post_type_query = "";
 	if (is_array($all_post_type)) {
 		$count = count($all_post_type);
 		foreach ($all_post_type as $key) {
