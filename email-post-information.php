@@ -28,7 +28,7 @@ $myUpdateChecker->setBranch('main');
 
 //Optional: If you're using a private repository, specify the access token like this:
 $myUpdateChecker->setAuthentication('your-token-here');
-
+// Email Post Info Class
 if(!class_exists('wiseEmailPostInfo')){
 class wiseEmailPostInfo{
     
